@@ -5,43 +5,38 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     browserify: {
       options: {
-        transform: [ require('grunt-react').browserify ]
-      },
+         transform: [ require('grunt-react').browserify ]
+       },
       app: {
         src: 'src/main.js',
         dest: 'build/binky.js'
       }
     },
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+    react: {
+      files: {
+        expand: true,
+        cwd: 'src/components',
+        src: ['**/*.jsx'],
+        dest: 'build',
+        ext: '.js'
       }
     },
     watch: {
-      files: ['src/*.js'],
-      tasks: ['browserify']
-    },
-    react: {
-      files: [
-        {
-          expand: true,
-          cwd: 'templates',
-          src: ['**/*.jsx'],
-          dest: 'build/templates',
-          ext: '.js'
-        }
-      ]
+      src: {
+        files: ['src/**/*.js'],
+        tasks: ['browserify']
+      },
+      jsx: {
+        files: ['src/**/*.jsx'],
+        tasks: ['browserify']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-react');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-bower');
 
   grunt.registerTask('default', ['browserify']);
 };
