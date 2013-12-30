@@ -1,0 +1,34 @@
+{
+  "name": "binky",
+  "version": "0.0.1",
+  "description": "HTML5 editor",
+  "main": "binky.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ronny Haryanto",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ronny/binky"
+  },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "dependencies": {
+    "react-tools": "~0.8.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-uglify": "~0.2.7",
+    "browserify": "~3.18.0",
+    "grunt-browserify": "~1.3.0",
+    "grunt-react": "~0.6.0"
+  }
+}
