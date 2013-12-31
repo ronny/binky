@@ -3,17 +3,78 @@
  * @jsx React.DOM
  */
 
+var EditableFrame = React.createClass({displayName: 'EditableFrame',
+  componentDidMount: function(iframe) {
+    setTimeout(function() {
+      var body = iframe.contentDocument.body;
+      body.contentEditable = true
+      body.onchange = this.handleChange;
+      body.onkeyup = this.handleKeyUp;
+      body.innerHTML = this.rawHTML();
+    }.bind(this), 0);
+  },
+  render: function() {
+    return (
+      // React doesn't yet support `sandbox` property,
+      // e.g. sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+      React.DOM.iframe( {seamless:"true", frameBorder:"0", contentEditable:"true"} )
+    );
+  },
+  handleChange: function(e) {
+    this.updateTextarea();
+  },
+  handleKeyUp: function(e) {
+    this.updateTextarea();
+  },
+  updateTextarea: function() {
+    var iframe = this.getDOMNode();
+    var body = iframe.contentDocument.body;
+    this.props.textarea.innerHTML = body.innerHTML;
+  },
+  rawHTML: function() {
+    return this.props.textarea.childNodes[0].nodeValue;
+  }
+});
+
+module.exports = EditableFrame;
+
+},{}],2:[function(require,module,exports){
+/**
+ * @jsx React.DOM
+ */
+
+var Toolbar = require('./toolbar.jsx');
+var EditableFrame = require('./editableFrame.jsx');
+
 var Editor = React.createClass({displayName: 'Editor',
   render: function() {
     return (
-      React.DOM.iframe(null)
+      React.DOM.div(null, 
+        Toolbar(null ),
+        EditableFrame( {textarea:this.props.textarea} )
+      )
     );
   }
 });
 
 module.exports = Editor;
 
-},{}],2:[function(require,module,exports){
+},{"./editableFrame.jsx":1,"./toolbar.jsx":3}],3:[function(require,module,exports){
+/**
+ * @jsx React.DOM
+ */
+
+var Toolbar = React.createClass({displayName: 'Toolbar',
+  render: function() {
+    return (
+      React.DOM.div(null, "Toolbar")
+    );
+  }
+});
+
+module.exports = Toolbar;
+
+},{}],4:[function(require,module,exports){
 var Binky = {};
 
 Binky.Editor = require('./components/editor.jsx');
@@ -24,4 +85,4 @@ if (!module) {
   window.Binky = Binky;
 }
 
-},{"./components/editor.jsx":1}]},{},[2])
+},{"./components/editor.jsx":2}]},{},[4])
